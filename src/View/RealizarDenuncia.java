@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
-/**
- *
- * @author thewi
- */
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
+
 public class RealizarDenuncia extends javax.swing.JFrame {
 
     /**
@@ -16,6 +13,8 @@ public class RealizarDenuncia extends javax.swing.JFrame {
      */
     public RealizarDenuncia() {
         initComponents();
+        formatarCampoCep();
+        formatarCampoHora();
     }
 
     /**
@@ -34,18 +33,19 @@ public class RealizarDenuncia extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         c_estado = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        c_cep = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        c_dataOcorrencia = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        c_horaOcorrencia = new javax.swing.JTextField();
         b_sim = new javax.swing.JRadioButton();
         b_nao = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        b_enviar = new javax.swing.JButton();
         b_cancelar = new javax.swing.JButton();
+        c_dataOcorrencia = new com.toedter.calendar.JDateChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        c_descricao = new javax.swing.JTextArea();
+        c_cep = new javax.swing.JFormattedTextField();
+        c_horaOcorrencia = new javax.swing.JFormattedTextField();
+        b_enviar = new javax.swing.JButton();
 
         setTitle("Realizar denúncia");
         setSize(new java.awt.Dimension(900, 600));
@@ -82,17 +82,24 @@ public class RealizarDenuncia extends javax.swing.JFrame {
 
         jLabel8.setText("Descrição da denúncia:");
 
-        b_enviar.setText("Enviar");
-        b_enviar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_enviarActionPerformed(evt);
-            }
-        });
-
         b_cancelar.setText("Cancelar");
         b_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_cancelarActionPerformed(evt);
+            }
+        });
+
+        c_dataOcorrencia.setDateFormatString("dd'/'MM'/'Y");
+
+        c_descricao.setColumns(20);
+        c_descricao.setLineWrap(true);
+        c_descricao.setRows(5);
+        jScrollPane1.setViewportView(c_descricao);
+
+        b_enviar.setText("Enviar");
+        b_enviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_enviarActionPerformed(evt);
             }
         });
 
@@ -109,7 +116,7 @@ public class RealizarDenuncia extends javax.swing.JFrame {
                         .addComponent(b_sim)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(b_nao)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6)
@@ -120,25 +127,30 @@ public class RealizarDenuncia extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(c_cep)
-                            .addComponent(c_dataOcorrencia)
-                            .addComponent(c_horaOcorrencia)
-                            .addComponent(c_cidade)
-                            .addComponent(c_estado)
-                            .addComponent(c_logradouro))
-                        .addGap(130, 130, 130))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(c_cidade)
+                                    .addComponent(c_estado)
+                                    .addComponent(c_logradouro))
+                                .addGap(130, 130, 130))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(c_dataOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(c_cep, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(c_horaOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1)
+                .addComponent(jScrollPane1)
                 .addGap(130, 130, 130))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(349, Short.MAX_VALUE)
+                .addContainerGap(354, Short.MAX_VALUE)
                 .addComponent(b_enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(b_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(345, 345, 345))
+                .addGap(340, 340, 340))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,27 +172,29 @@ public class RealizarDenuncia extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(c_cep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(c_dataOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(c_horaOcorrencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(b_sim)
                     .addComponent(b_nao))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(b_enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(b_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(150, Short.MAX_VALUE))
+                    .addComponent(b_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(b_enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(133, 133, 133))
         );
 
         pack();
@@ -195,14 +209,33 @@ public class RealizarDenuncia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_c_cidadeActionPerformed
 
-    private void b_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_enviarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_b_enviarActionPerformed
-
     private void b_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cancelarActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_b_cancelarActionPerformed
 
+    private void b_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_enviarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_b_enviarActionPerformed
+
+    public void formatarCampoCep() {
+        try {
+            MaskFormatter formatCep = new MaskFormatter("#####-###");
+            formatCep.install(c_cep);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro!", "Erro",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public void formatarCampoHora() {
+        MaskFormatter formatHora;
+        try {
+            formatHora = new MaskFormatter("##:##");
+            formatHora.install(c_horaOcorrencia);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -243,11 +276,12 @@ public class RealizarDenuncia extends javax.swing.JFrame {
     private javax.swing.JButton b_enviar;
     private javax.swing.JRadioButton b_nao;
     private javax.swing.JRadioButton b_sim;
-    private javax.swing.JTextField c_cep;
+    private javax.swing.JFormattedTextField c_cep;
     private javax.swing.JTextField c_cidade;
-    private javax.swing.JTextField c_dataOcorrencia;
+    private com.toedter.calendar.JDateChooser c_dataOcorrencia;
+    private javax.swing.JTextArea c_descricao;
     private javax.swing.JTextField c_estado;
-    private javax.swing.JTextField c_horaOcorrencia;
+    private javax.swing.JFormattedTextField c_horaOcorrencia;
     private javax.swing.JTextField c_logradouro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -257,6 +291,6 @@ public class RealizarDenuncia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
